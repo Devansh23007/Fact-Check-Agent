@@ -86,8 +86,10 @@ class ProviderRouter:
             provider = candidates[0]
             name = provider["name"]
             attempted.add(name)
+
+            effective_choice = "auto" if (name == "groq" and isinstance(tool_choice, dict)) else tool_choice
             try:
-                response = self._request(provider, messages, tools, tool_choice, max_tokens)
+                response = self._request(provider, messages, tools, effective_choice, max_tokens)
                 self.calls[name] = self.calls.get(name, 0) + 1
                 self.model = f"{name}/{provider['model']}"
                 return response
@@ -105,34 +107,24 @@ class ProviderRouter:
                 self.log(f"  {name} disabled for this run: model not found or unavailable.")
             except openai.BadRequestError as exc:
                 error_text = f"{getattr(exc, 'message', '')} {getattr(exc, 'body', '')} {exc}".lower()
-                # A provider may reject forced submit_report. Retry as any required function call;
-                # the final-step prompt tells the model to choose submit_report.
-                if isinstance(tool_choice, dict):
-                    try:
-                        response = self._request(provider, messages, tools, "auto", max_tokens)
-                        self.calls[name] = self.calls.get(name, 0) + 1
-                        self.model = f"{name}/{provider['model']}"
-                        return response
-                    except openai.BadRequestError:
-                        pass
-                    except openai.APIError:
-                        pass
-                # One retry for provider-side malformed tool-call serialization.
                 malformed_tool = any(term in error_text for term in (
                     "tool_use_failed", "malformed", "failed_generation", "invalid tool call",
                     "tool call arguments", "arguments are not valid json",
                     "tool call validation failed", "does not match request.tool_choice",
                     "which was not in request.tools", "tool choice is required",
-                ))
+                )) or isinstance(tool_choice, dict)
                 if malformed_tool:
                     try:
                         response = self._request(provider, messages, tools, "auto", max_tokens)
                         self.calls[name] = self.calls.get(name, 0) + 1
                         self.model = f"{name}/{provider['model']}"
                         return response
-                    except openai.BadRequestError:
-                        pass
-                    except openai.APIError:
+                    except openai.RateLimitError as rle:
+                        wait = self._retry_after(rle)
+                        self.cooldowns[name] = time.monotonic() + wait
+                        self.log(f"  {name} rate limited during retry; trying next provider (cooldown ~{int(wait)}s).")
+                        continue
+                    except (openai.BadRequestError, openai.APIError):
                         pass
                 self.disabled[name] = "request/tool compatibility error"
                 detail = str(getattr(exc, "message", "") or "").replace("\n", " ").strip()[:180]
