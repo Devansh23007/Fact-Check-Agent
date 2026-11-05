@@ -7,7 +7,8 @@ def search_factchecks(query: str, *, api_key: str = "", timeout: int = 20, limit
         return []
     response = requests.get(
         "https://factchecktools.googleapis.com/v1alpha1/claims:search",
-        params={"query": query, "languageCode": "en", "key": api_key, "pageSize": limit},
+        params={"query": query, "languageCode": "en", "pageSize": limit},
+        headers={"X-Goog-Api-Key": api_key},
         timeout=timeout,
     )
     response.raise_for_status()

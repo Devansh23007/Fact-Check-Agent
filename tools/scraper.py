@@ -20,8 +20,10 @@ def fetch_page(url: str, *, max_chars: int = 4000, timeout: int = 20, resolver=N
     current = url
     for _ in range(_MAX_REDIRECTS + 1):
         validate_public_https_url(current, resolver)
-        response = http.get(current, headers=_UA, timeout=timeout, allow_redirects=False)
+        response = http.get(current, headers=_UA, timeout=timeout, allow_redirects=False, stream=True)
         if response.status_code in (301, 302, 303, 307, 308) and response.headers.get("Location"):
+            if hasattr(response, "close"):
+                response.close()
             current = urljoin(current, response.headers["Location"])
             continue
         response.raise_for_status()
@@ -31,14 +33,45 @@ def fetch_page(url: str, *, max_chars: int = 4000, timeout: int = 20, resolver=N
 
     content_type = response.headers.get("Content-Type", "")
     if content_type and not any(t in content_type for t in ("html", "text/plain", "xml")):
+        if hasattr(response, "close"):
+            response.close()
         raise ValueError(f"Unsupported content type: {content_type.split(';')[0]}")
-    if len(response.content) > _MAX_BYTES:
-        raise ValueError("Page is too large")
+    content_length = response.headers.get("Content-Length")
+    if content_length:
+        try:
+            declared_size = int(content_length)
+        except ValueError:
+            declared_size = 0  # Ignore malformed lengths; the streamed cap remains enforced.
+        if declared_size > _MAX_BYTES:
+            if hasattr(response, "close"):
+                response.close()
+            raise ValueError("Page is too large")
 
-    text = trafilatura.extract(response.text, include_comments=False, include_tables=False) or ""
+    chunks = []
+    size = 0
+    try:
+        if hasattr(response, "iter_content"):
+            for chunk in response.iter_content(chunk_size=64 * 1024):
+                if not chunk:
+                    continue
+                size += len(chunk)
+                if size > _MAX_BYTES:
+                    raise ValueError("Page is too large")
+                chunks.append(chunk)
+            body = b"".join(chunks)
+        else:  # lets small injected test/session adapters expose only .content
+            body = response.content
+            if len(body) > _MAX_BYTES:
+                raise ValueError("Page is too large")
+    finally:
+        if hasattr(response, "close"):
+            response.close()
+
+    html = body.decode(getattr(response, "encoding", None) or "utf-8", errors="replace")
+    text = trafilatura.extract(html, include_comments=False, include_tables=False) or ""
     title = ""
     try:
-        meta = trafilatura.extract_metadata(response.text)
+        meta = trafilatura.extract_metadata(html)
         title = (meta.title or "") if meta else ""
     except Exception:
         pass

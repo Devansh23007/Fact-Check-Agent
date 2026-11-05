@@ -6,6 +6,9 @@ __pycache__/
 .pytest_cache/
 data/cache/
 data/vectorstore/
+data/research_sessions.sqlite3
+data/research_sessions.sqlite3-shm
+data/research_sessions.sqlite3-wal
 data/reports/*
 !data/reports/.gitkeep
 data/docs/*

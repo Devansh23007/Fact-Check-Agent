@@ -23,6 +23,6 @@ def parse_iso_date(value: str | None) -> date | None:
     if not value:
         return None
     try:
-        return date.fromisoformat(str(value).strip()[:10])
+        return date.fromisoformat(str(value).strip())
     except ValueError:
         return None

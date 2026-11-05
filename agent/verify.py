@@ -32,7 +32,8 @@ def excerpt_matches(excerpt: str, source_text: str, threshold: float = 0.7) -> b
 def source_summaries(registry: SourceRegistry) -> list[SourceSummary]:
     return [
         SourceSummary(title=s.title or s.claim_reviewed or s.url, url=s.url, publisher=s.publisher,
-                      published_at=s.published_at, tier=s.tier, read_full_text=s.has_full_text)
+                      published_at=s.published_at, tier=s.tier, read_full_text=s.has_full_text,
+                      snippet=s.snippet)
         for s in registry.all()
     ]
 
@@ -100,6 +101,7 @@ def fallback_report(topic: str, registry: SourceRegistry, research_log: list[Res
     evidence = [
         Evidence(source_name=s.publisher or hostname(s.url), url=s.url, stance="neutral",
                  excerpt=(f"{s.title}. {s.snippet}" if s.snippet else s.title)[:500],
+                 excerpt_verified=True,   # copied directly from the retrieved headline/snippet
                  source_tier=s.tier, published_at=s.published_at)
         for s in registry.all()[:6]
     ]

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from urllib.parse import urlparse
 
 from agent.guardrails import normalize_url
 from agent.reliability import classify
@@ -57,6 +58,22 @@ class SourceRegistry:
     def get(self, url: str) -> Source | None:
         key = normalize_url(url)
         return self._sources.get(self._aliases.get(key, key))
+
+    def resolve_registered_prefix(self, url: str) -> Source | None:
+        """Resolve a model-truncated URL only when it uniquely prefixes a registered URL."""
+        requested = normalize_url(url)
+        parsed = urlparse(requested)
+        if parsed.scheme != "https" or not parsed.hostname or len(parsed.path) < 12:
+            return None
+        matches = []
+        for source in self._sources.values():
+            candidate = normalize_url(source.url)
+            actual = urlparse(candidate)
+            if (actual.scheme == parsed.scheme and actual.hostname == parsed.hostname
+                    and actual.path.startswith(parsed.path)
+                    and (not parsed.query or actual.query == parsed.query)):
+                matches.append(source)
+        return matches[0] if len(matches) == 1 else None
 
     def all(self) -> list[Source]:
         return list(self._sources.values())

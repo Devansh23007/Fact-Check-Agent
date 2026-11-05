@@ -53,6 +53,7 @@ class SourceSummary(BaseModel):
     published_at: str = ""
     tier: str = "general"
     read_full_text: bool = False
+    snippet: str = ""
 
 
 class ResearchStep(BaseModel):
@@ -66,6 +67,7 @@ class FactCheckReport(BaseModel):
     topic: str
     generated_at: str = ""
     model: str = ""
+    llm_calls: dict[str, int] = Field(default_factory=dict)
     summary: str
     verdicts: list[Verdict] = Field(default_factory=list)
     sources_considered: list[SourceSummary] = Field(default_factory=list)

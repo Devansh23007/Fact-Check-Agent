@@ -5,6 +5,8 @@ _ICON = {"supported": "✅", "contradicted": "❌", "misleading": "⚠️", "unv
 
 def to_markdown(report: FactCheckReport) -> str:
     lines = [f"# Fact-check: {report.topic}", "", f"_Generated {report.generated_at} · model `{report.model}`_", "", report.summary, ""]
+    if report.llm_calls:
+        lines += ["**AI calls served by:** " + ", ".join(f"{provider}: {count}" for provider, count in report.llm_calls.items()), ""]
     for i, verdict in enumerate(report.verdicts, 1):
         lines += [
             f"## {i}. {verdict.claim}",
