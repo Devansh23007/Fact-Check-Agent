@@ -74,8 +74,9 @@ class ProviderRouter:
                              if p["name"] not in self.disabled and self.cooldowns.get(p["name"], 0) > now]
                 if remaining:
                     wait = min(remaining)
-                    if wait <= 5 and not cooldown_waited:
-                        self.sleep(wait)
+                    if wait <= 15 and not cooldown_waited:
+                        self.log(f"  AI provider in cooldown; waiting {int(wait) + 1}s for rate limit to reset...")
+                        self.sleep(wait + 0.5)
                         cooldown_waited = True
                         attempted.clear()
                         continue
@@ -120,6 +121,8 @@ class ProviderRouter:
                 malformed_tool = any(term in error_text for term in (
                     "tool_use_failed", "malformed", "failed_generation", "invalid tool call",
                     "tool call arguments", "arguments are not valid json",
+                    "tool call validation failed", "does not match request.tool_choice",
+                    "which was not in request.tools", "tool choice is required",
                 ))
                 if malformed_tool:
                     try:

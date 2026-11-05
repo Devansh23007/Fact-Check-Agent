@@ -95,22 +95,47 @@ def finalize(topic: str, draft: ReportDraft, registry: SourceRegistry, research_
                            research_log=research_log, warnings=warnings or [], **_meta(topic, model))
 
 
+def synthesize_source_summary(sources, topic: str) -> str:
+    """Build a coherent, informative summary directly from retrieved headlines and snippets."""
+    if not sources:
+        return f"No news reports were retrieved for: '{topic}'."
+    unique_titles = list(dict.fromkeys(s.title.strip() for s in sources if s.title and s.title.strip()))
+    publishers = list(dict.fromkeys(s.publisher.strip() for s in sources if s.publisher and s.publisher.strip()))
+    snippets = [s.snippet.strip() for s in sources if s.snippet and len(s.snippet.strip()) > 30]
+
+    parts = []
+    pub_str = f" across {', '.join(publishers[:3])}" if publishers else ""
+    if unique_titles:
+        parts.append(f"Recent reporting{pub_str} focuses on '{unique_titles[0]}'.")
+        if len(unique_titles) > 1:
+            parts.append(f"Related coverage includes: '{unique_titles[1]}'.")
+    if snippets:
+        parts.append(snippets[0])
+    return " ".join(parts) if parts else f"Multiple reporting sources were found regarding '{topic}'."
+
+
 def fallback_report(topic: str, registry: SourceRegistry, research_log: list[ResearchStep], reason: str,
                     model: str) -> FactCheckReport:
-    """Transparent 'unverified' report when the model could not finish."""
+    """Transparent 'unverified' report when the model could not finish, with source-based summary."""
+    sources = registry.all()
     evidence = [
         Evidence(source_name=s.publisher or hostname(s.url), url=s.url, stance="neutral",
                  excerpt=(f"{s.title}. {s.snippet}" if s.snippet else s.title)[:500],
-                 excerpt_verified=True,   # copied directly from the retrieved headline/snippet
+                 excerpt_verified=True,
                  source_tier=s.tier, published_at=s.published_at)
-        for s in registry.all()[:6]
+        for s in sources[:6]
     ]
     note = ("These sources were retrieved but not assessed. This does not show the claim is false."
             if evidence else "No sources were retrieved. This does not show the claim is false.")
+    
+    # Generate an informative summary from the retrieved news sources!
+    summary = synthesize_source_summary(sources, topic)
+
     return FactCheckReport(
-        summary=reason,
+        summary=summary,
         verdicts=[Verdict(claim=topic.rstrip("? .") or topic, verdict="unverified", confidence="low",
                           evidence=evidence, notes=note)],
-        sources_considered=source_summaries(registry), research_log=research_log, warnings=[reason],
+        sources_considered=source_summaries(registry), research_log=research_log,
+        warnings=[f"AI model in cooldown / rate-limited; news summary generated directly from retrieved reporting."],
         **_meta(topic, model),
     )
