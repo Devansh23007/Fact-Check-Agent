@@ -3,83 +3,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0f172a">
-  <title>Newsroom AI — News with Receipts</title>
+  <meta name="theme-color" content="#090d16">
+  <title>Newsroom — Verify Claims with Receipts</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #fcfcfd;
       --card-bg: #ffffff;
-      --card-glass: rgba(255, 255, 255, 0.88);
+      --card-hover: #f8fafc;
       --border: #e2e8f0;
-      --border-hover: #cbd5e1;
-      --ink-primary: #0f172a;
+      --border-subtle: #edf2f7;
+      --border-focus: #0f172a;
+      --ink: #0f172a;
       --ink-secondary: #475569;
-      --ink-muted: #64748b;
+      --ink-muted: #94a3b8;
+      
       --emerald: #059669;
-      --emerald-light: #ecfdf5;
+      --emerald-bg: #ecfdf5;
       --emerald-border: #a7f3d0;
-      --emerald-glow: rgba(5, 150, 105, 0.18);
-      --accent: #2563eb;
-      --accent-light: #eff6ff;
-      --amber: #d97706;
-      --amber-light: #fffbeb;
+      --emerald-ink: #065f46;
+      
       --rose: #e11d48;
-      --rose-light: #fff1f2;
-      --slate: #64748b;
-      --slate-light: #f1f5f9;
-      --code-bg: #f8fafc;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-      --shadow-md: 0 4px 14px -1px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
-      --shadow-lg: 0 20px 40px -6px rgba(15, 23, 42, 0.09), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
+      --rose-bg: #fff1f2;
+      --rose-border: #fecdd3;
+      --rose-ink: #9f1239;
+      
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --amber-border: #fde68a;
+      --amber-ink: #92400e;
+
+      --slate-bg: #f1f5f9;
+      --slate-border: #cbd5e1;
+      
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 16px 36px -4px rgba(15, 23, 42, 0.08);
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
       --radius-full: 9999px;
-      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="dark"] {
       --bg: #090d16;
-      --card-bg: #111827;
-      --card-glass: rgba(17, 24, 39, 0.88);
-      --border: #1f2937;
-      --border-hover: #374151;
-      --ink-primary: #f8fafc;
+      --card-bg: #111726;
+      --card-hover: #161e31;
+      --border: #1e283d;
+      --border-subtle: #161f30;
+      --border-focus: #38bdf8;
+      --ink: #f8fafc;
       --ink-secondary: #94a3b8;
       --ink-muted: #64748b;
+      
       --emerald: #10b981;
-      --emerald-light: rgba(16, 185, 129, 0.12);
-      --emerald-border: rgba(16, 185, 129, 0.28);
-      --emerald-glow: rgba(16, 185, 129, 0.25);
-      --accent: #38bdf8;
-      --accent-light: rgba(56, 189, 248, 0.12);
-      --amber: #f59e0b;
-      --amber-light: rgba(245, 158, 11, 0.12);
+      --emerald-bg: rgba(16, 185, 129, 0.1);
+      --emerald-border: rgba(16, 185, 129, 0.25);
+      --emerald-ink: #34d399;
+      
       --rose: #f43f5e;
-      --rose-light: rgba(244, 63, 94, 0.12);
-      --slate: #94a3b8;
-      --slate-light: #1e293b;
-      --code-bg: #0d131f;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-      --shadow-md: 0 4px 14px -1px rgba(0,0,0,0.4);
-      --shadow-lg: 0 20px 40px -6px rgba(0,0,0,0.6);
+      --rose-bg: rgba(244, 63, 94, 0.1);
+      --rose-border: rgba(244, 63, 94, 0.25);
+      --rose-ink: #fb7185;
+      
+      --amber: #f59e0b;
+      --amber-bg: rgba(245, 158, 11, 0.1);
+      --amber-border: rgba(245, 158, 11, 0.25);
+      --amber-ink: #fbbf24;
+
+      --slate-bg: #1e293b;
+      --slate-border: #334155;
+      
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
-      color: var(--ink-primary);
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
       line-height: 1.5;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(5, 150, 105, 0.05) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.04) 0px, transparent 50%);
-      transition: background-color 0.25s ease, color 0.25s ease;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     button, input { font: inherit; }
@@ -87,232 +99,180 @@
     a { color: inherit; text-decoration: none; }
 
     .shell {
-      max-width: 1260px;
+      max-width: 1080px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
     /* --- TOPBAR --- */
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      height: 72px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      background: var(--card-glass);
       border-bottom: 1px solid var(--border);
-      transition: var(--transition);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      backdrop-filter: blur(12px);
+      z-index: 40;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 20px;
-      letter-spacing: -0.04em;
-      color: var(--ink-primary);
-      user-select: none;
-    }
-    .brand-mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-      color: white;
-      display: grid;
-      place-items: center;
+      gap: 10px;
       font-weight: 800;
       font-size: 18px;
-      box-shadow: 0 4px 12px var(--emerald-glow);
+      letter-spacing: -0.03em;
     }
-    .brand em {
-      font-style: normal;
-      background: linear-gradient(135deg, #059669, #10b981);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-left: 2px;
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+    }
+    .brand span {
+      color: var(--ink-muted);
+      font-weight: 500;
+      font-size: 14px;
+      margin-left: 4px;
     }
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
-    .status-badge {
-      display: inline-flex;
+    .status-indicator {
+      display: flex;
       align-items: center;
-      gap: 8px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 6px 14px;
-      border-radius: var(--radius-full);
+      gap: 6px;
       font-size: 12px;
       font-weight: 600;
       color: var(--ink-secondary);
-      box-shadow: var(--shadow-sm);
     }
-    .status-pulse {
-      width: 8px;
-      height: 8px;
+    .status-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
-      animation: pulse 2s infinite ease-in-out;
+      background: var(--emerald);
     }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.25); opacity: 0.7; }
-    }
-    .theme-switch {
-      display: inline-flex;
+    .theme-toggle-btn {
+      display: flex;
       align-items: center;
-      background: var(--slate-light);
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      padding: 3px;
-      gap: 2px;
-      box-shadow: var(--shadow-sm);
-      user-select: none;
+      background: var(--card-bg);
+      color: var(--ink-secondary);
       transition: var(--transition);
     }
-    .theme-option {
+    .theme-toggle-btn:hover {
+      color: var(--ink);
+      border-color: var(--border-focus);
+    }
+
+    /* --- HERO & SEARCH --- */
+    .hero {
+      padding: 60px 0 32px;
+      text-align: center;
+    }
+    .kicker-tag {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 5px 12px;
+      padding: 4px 12px;
       border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--ink-muted);
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-      background: transparent;
-    }
-    .theme-option:hover {
-      color: var(--ink-primary);
-    }
-    .theme-option.active {
-      background: var(--card-bg);
-      color: var(--ink-primary);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    }
-    [data-theme="dark"] .theme-switch {
-      background: #0d131f;
-      border-color: #1f2937;
-    }
-    [data-theme="dark"] .theme-option.active {
-      background: #1e293b;
-      color: #38bdf8;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    }
-
-    /* --- HERO --- */
-    .hero {
-      padding: 52px 0 28px;
-      max-width: 880px;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--emerald-light);
-      border: 1px solid var(--emerald-border);
-      color: var(--emerald);
-      padding: 5px 14px;
-      border-radius: var(--radius-full);
+      background: var(--slate-bg);
+      border: 1px solid var(--border);
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      color: var(--ink-secondary);
+      margin-bottom: 16px;
     }
     .hero h1 {
-      font-size: clamp(42px, 6vw, 70px);
-      letter-spacing: -0.055em;
-      line-height: 1.02;
+      font-size: clamp(34px, 5vw, 54px);
+      letter-spacing: -0.045em;
       font-weight: 800;
-      margin-bottom: 18px;
-      color: var(--ink-primary);
+      line-height: 1.08;
+      margin-bottom: 14px;
     }
-    .hero h1 span.gradient {
-      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #0284c7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-desc {
-      font-size: 17px;
-      line-height: 1.65;
+    .hero-subtitle {
+      font-size: 16px;
       color: var(--ink-secondary);
-      max-width: 640px;
-      margin-bottom: 28px;
+      max-width: 580px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
     }
 
-    /* --- INTERACTIVE ASK BOX --- */
-    .askbox-wrap {
-      max-width: 880px;
-      margin-bottom: 22px;
+    /* Interactive Search Form */
+    .search-box-wrap {
+      max-width: 760px;
+      margin: 0 auto;
     }
-    .askbox {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 8px;
+    .search-form {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 12px;
-      box-shadow: var(--shadow-md);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 6px 8px 6px 16px;
+      box-shadow: var(--shadow-sm);
       transition: var(--transition);
     }
-    .askbox:focus-within {
-      border-color: var(--emerald);
-      box-shadow: 0 0 0 4px var(--emerald-glow), var(--shadow-lg);
-      transform: translateY(-2px);
+    .search-form:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-md), 0 0 0 3px rgba(15, 23, 42, 0.08);
     }
-    .askbox-icon {
-      font-size: 18px;
-      margin-left: 14px;
-      opacity: 0.55;
+    [data-theme="dark"] .search-form:focus-within {
+      box-shadow: var(--shadow-md), 0 0 0 3px rgba(56, 189, 248, 0.15);
     }
-    .askbox input {
+    .search-form input {
       flex: 1;
       border: none;
       outline: none;
-      font-size: 16px;
-      color: var(--ink-primary);
       background: transparent;
-      padding: 8px 4px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 500;
+      padding: 8px 0;
     }
-    .askbox input::placeholder {
+    .search-form input::placeholder {
       color: var(--ink-muted);
     }
-    .askbox-btn {
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-      color: white;
-      border-radius: var(--radius-md);
-      padding: 12px 24px;
+    .kbd-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-muted);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-right: 10px;
+      user-select: none;
+    }
+    .submit-btn {
+      background: var(--ink);
+      color: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 10px 18px;
+      font-size: 13.5px;
       font-weight: 700;
-      font-size: 14px;
-      letter-spacing: -0.01em;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 14px var(--emerald-glow);
+      gap: 6px;
       transition: var(--transition);
     }
-    .askbox-btn:hover {
+    .submit-btn:hover {
+      opacity: 0.92;
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px var(--emerald-glow);
-      filter: brightness(1.05);
     }
-    .askbox-btn:active {
-      transform: translateY(1px);
-    }
-    .askbox-btn:disabled {
-      opacity: 0.6;
+    .submit-btn:disabled {
+      opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
@@ -320,16 +280,15 @@
     /* Suggestions */
     .suggestions {
       display: flex;
-      align-items: center;
       flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
       gap: 8px;
-      margin-top: 16px;
+      margin-top: 18px;
     }
     .suggestions-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-weight: 750;
+      font-size: 12px;
+      font-weight: 600;
       color: var(--ink-muted);
       margin-right: 4px;
     }
@@ -337,7 +296,7 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-full);
-      padding: 6px 14px;
+      padding: 5px 12px;
       font-size: 12px;
       font-weight: 600;
       color: var(--ink-secondary);
@@ -345,797 +304,769 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: var(--shadow-sm);
     }
     .chip:hover {
-      border-color: var(--emerald-border);
-      color: var(--emerald);
-      background: var(--emerald-light);
+      background: var(--card-hover);
+      border-color: var(--border-focus);
+      color: var(--ink);
       transform: translateY(-1px);
     }
+    .chip-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      font-weight: 700;
+    }
 
-    .session-bar {
+    /* Session hint & fresh session button */
+    .session-status-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 12px;
       margin-top: 14px;
       font-size: 12px;
       color: var(--ink-muted);
     }
-    .btn-ghost {
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
+    .btn-reset-session {
       color: var(--emerald);
-      background: var(--emerald-light);
-      transition: var(--transition);
-    }
-    .btn-ghost:hover {
-      background: var(--emerald);
-      color: white;
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
     }
 
-    /* --- ANSWER PANEL --- */
+    /* --- LIVE PROGRESS BAR --- */
+    .live-progress-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .progress-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .progress-title {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+    .live-current-step {
+      font-size: 13.5px;
+      color: var(--ink-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 14px;
+    }
+    .progress-bar-track {
+      height: 4px;
+      border-radius: 2px;
+      background: var(--slate-bg);
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 40%;
+      background: var(--emerald);
+      border-radius: 2px;
+      animation: indeterminate 1.8s infinite ease-in-out;
+    }
+    @keyframes indeterminate {
+      0% { left: -30%; width: 30%; }
+      50% { left: 40%; width: 50%; }
+      100% { left: 100%; width: 20%; }
+    }
+    .audit-toggle-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      cursor: pointer;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .audit-list {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .audit-item {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ink-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* --- ANSWER PANEL (CLEAN & INTERACTIVE) --- */
     .answer-panel {
       display: none;
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 32px;
-      margin: 32px 0 48px;
-      box-shadow: var(--shadow-lg);
-      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      position: relative;
+      border-radius: var(--radius-lg);
+      margin: 28px 0 48px;
+      box-shadow: var(--shadow-md);
       overflow: hidden;
+      animation: fadeIn 0.25s ease-out;
     }
     .answer-panel.show { display: block; }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(18px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .answer-panel::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #059669, #10b981, #0284c7);
+
+    /* Verdict Hero Banner */
+    .verdict-banner {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .verdict-banner.verdict-false {
+      background: var(--rose-bg);
+      border-bottom-color: var(--rose-border);
+    }
+    .verdict-banner.verdict-true {
+      background: var(--emerald-bg);
+      border-bottom-color: var(--emerald-border);
+    }
+    .verdict-banner.verdict-misleading {
+      background: var(--amber-bg);
+      border-bottom-color: var(--amber-border);
+    }
+    .verdict-banner.verdict-unverified {
+      background: var(--slate-bg);
+      border-bottom-color: var(--border);
     }
 
-    .answer-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
-      padding-bottom: 22px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 24px;
-    }
-    .kicker {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--emerald);
-      margin-bottom: 6px;
+    .verdict-top-row {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: space-between;
     }
-    .answer-head h2 {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.035em;
-      line-height: 1.25;
-      color: var(--ink-primary);
-    }
-    .action-group {
-      display: flex;
+    .verdict-badge {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
-    .icon-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      display: grid;
-      place-items: center;
+    .verdict-false .verdict-badge { background: var(--rose); color: white; }
+    .verdict-true .verdict-badge { background: var(--emerald); color: white; }
+    .verdict-misleading .verdict-badge { background: var(--amber); color: white; }
+    .verdict-unverified .verdict-badge { background: var(--ink-secondary); color: white; }
+
+    .verdict-confidence {
+      font-size: 11.5px;
+      font-weight: 700;
       color: var(--ink-secondary);
-      transition: var(--transition);
-      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-    .icon-btn:hover {
+
+    .examined-claim {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    /* The Reality Box */
+    .reality-box {
       background: var(--card-bg);
-      border-color: var(--border-hover);
-      color: var(--ink-primary);
-      transform: scale(1.05);
-    }
-
-    /* Core narrative text */
-    .answer-narrative {
-      font-family: 'Newsreader', Georgia, serif;
-      font-size: 19px;
-      line-height: 1.7;
-      color: var(--ink-primary);
-      margin-bottom: 22px;
-    }
-    .answer-meta {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      font-size: 12px;
-      color: var(--ink-muted);
-      margin-bottom: 26px;
-      padding-bottom: 18px;
-      border-bottom: 1px dashed var(--border);
-    }
-    .meta-tag {
-      background: var(--slate-light);
-      color: var(--ink-primary);
-      padding: 3px 10px;
-      border-radius: var(--radius-sm);
-      font-weight: 600;
-    }
-
-    /* Claims Cards */
-    .claims-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-      margin: 26px 0;
-    }
-    .claim-card {
-      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 20px;
-      transition: var(--transition);
-      position: relative;
-    }
-    .claim-card:hover {
-      border-color: var(--border-hover);
+      padding: 16px 20px;
       box-shadow: var(--shadow-sm);
     }
-    .claim-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .pill {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .pill.supported {
-      background: var(--emerald-light);
-      color: var(--emerald);
-      border: 1px solid var(--emerald-border);
-    }
-    .pill.contradicted, .pill.misleading {
-      background: var(--rose-light);
-      color: var(--rose);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-    }
-    .pill.unverified {
-      background: var(--slate-light);
-      color: var(--ink-secondary);
-      border: 1px solid var(--border);
-    }
-    .claim-title {
-      font-weight: 700;
-      font-size: 15px;
-      line-height: 1.45;
-      color: var(--ink-primary);
-      margin-bottom: 8px;
-    }
-    .claim-confidence {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--ink-muted);
-      margin-bottom: 12px;
-    }
-    .claim-notes {
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--ink-secondary);
-      background: var(--card-bg);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      margin-bottom: 14px;
-    }
-    .evidence-block {
-      border-left: 3px solid var(--emerald);
-      padding: 8px 0 8px 14px;
-      margin-top: 10px;
-      background: var(--card-bg);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      font-size: 13px;
-    }
-    .evidence-quote {
-      font-style: italic;
-      color: var(--ink-primary);
-      line-height: 1.5;
-      margin: 4px 0;
-    }
-    .evidence-link {
-      color: var(--emerald);
-      font-weight: 700;
-      font-size: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 6px;
-    }
-    .evidence-link:hover { text-decoration: underline; }
-
-    /* --- NEWS SUMMARY SECTION (HIGHLIGHTED) --- */
-    .news-summary-card {
-      background: linear-gradient(135deg, var(--emerald-light) 0%, var(--card-bg) 100%);
-      border: 1px solid var(--emerald-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin: 28px 0 20px;
-      box-shadow: 0 4px 20px -2px var(--emerald-glow);
-      position: relative;
-    }
-    .news-summary-card .card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--card-bg);
-      border: 1px solid var(--emerald-border);
-      color: var(--emerald);
+    .reality-box-title {
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      margin-bottom: 10px;
+      color: var(--ink-muted);
+      margin-bottom: 6px;
     }
-    .news-summary-card h3 {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--ink-primary);
-      margin-bottom: 10px;
-    }
-    .news-summary-text {
+    .reality-text {
       font-size: 15px;
-      line-height: 1.7;
-      color: var(--ink-primary);
-      margin-bottom: 14px;
-    }
-    .takeaways-list {
-      list-style: none;
-      margin-top: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .takeaway-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      background: var(--card-bg);
-      border: 1px solid var(--emerald-border);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--ink-secondary);
-    }
-    .takeaway-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--emerald);
-      margin-top: 7px;
-      flex-shrink: 0;
-    }
-    .takeaway-item strong {
-      color: var(--ink-primary);
-      font-weight: 700;
+      line-height: 1.6;
+      font-weight: 550;
+      color: var(--ink);
     }
 
-    /* --- RELATED NEWS GALLERY --- */
-    .related-section {
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-      margin-top: 26px;
-    }
-    .related-header {
+    /* Interactive Tabs inside Answer */
+    .answer-tabs-bar {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 14px;
+      align-items: center;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card-bg);
+      gap: 24px;
     }
-    .related-header h3 {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
+    .tab-link {
+      padding: 14px 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tab-link:hover { color: var(--ink); }
+    .tab-link.active {
+      color: var(--ink);
+      border-bottom-color: var(--ink);
+    }
+    .tab-count {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      background: var(--slate-bg);
       color: var(--ink-secondary);
     }
-    .related-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+    /* Tab Content Panes */
+    .answer-body {
+      padding: 24px 28px 28px;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* Proof Cards */
+    .proof-grid {
+      display: flex;
+      flex-direction: column;
       gap: 12px;
     }
-    .source-card {
-      background: var(--card-bg);
+    .proof-card {
+      background: var(--card-hover);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 14px 16px;
+      padding: 16px 18px;
+      transition: var(--transition);
+    }
+    .proof-card:hover {
+      border-color: var(--border-focus);
+    }
+    .proof-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .proof-source-tag {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .proof-badges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tag-verified {
+      background: var(--emerald-bg);
+      color: var(--emerald-ink);
+      border: 1px solid var(--emerald-border);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .tag-stance {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .tag-stance.contradicts {
+      background: var(--rose-bg);
+      color: var(--rose-ink);
+    }
+    .tag-stance.supports {
+      background: var(--emerald-bg);
+      color: var(--emerald-ink);
+    }
+    .proof-quote {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+      font-style: italic;
+      margin-bottom: 12px;
+      padding-left: 12px;
+      border-left: 2px solid var(--border);
+    }
+    .proof-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+    .link-inspect {
+      color: var(--emerald);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .link-inspect:hover { text-decoration: underline; }
+    .btn-copy-quote {
+      color: var(--ink-muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .btn-copy-quote:hover { color: var(--ink); }
+
+    /* Dossier Pane */
+    .dossier-narrative {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    /* Sources Grid */
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+    .source-item-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
       transition: var(--transition);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 8px;
     }
-    .source-card:hover {
+    .source-item-card:hover {
       border-color: var(--emerald);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
     }
-    .source-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .source-item-meta {
       font-size: 11px;
       color: var(--ink-muted);
       font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
     }
-    .source-publisher {
-      color: var(--emerald);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .source-card-title {
+    .source-item-title {
       font-size: 13px;
-      font-weight: 650;
-      line-height: 1.45;
-      color: var(--ink-primary);
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 8px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .source-card-cta {
+
+    /* Answer Action Bar */
+    .answer-footer-bar {
+      padding: 14px 28px;
+      border-top: 1px solid var(--border);
+      background: var(--card-hover);
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--emerald);
-      margin-top: 4px;
-    }
-
-    /* Live Progress Stream */
-    .live-stream-box {
-      background: var(--slate-light);
-      border: 1px dashed var(--emerald-border);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      margin: 16px 0;
-    }
-    .steps-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 13px;
-      color: var(--ink-secondary);
-    }
-    .steps-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .step-spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(5, 150, 105, 0.2);
-      border-top-color: var(--emerald);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      flex-shrink: 0;
-    }
-    .step-done {
-      color: var(--emerald);
-      font-weight: 800;
-      flex-shrink: 0;
-    }
-
-    /* --- FEED SECTION --- */
-    .feed-section {
-      margin-top: 48px;
-    }
-    .feed-head {
-      display: flex;
-      align-items: flex-end;
       justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-    }
-    .feed-head h2 {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      color: var(--ink-primary);
-    }
-    .feed-head p {
-      font-size: 14px;
+      font-size: 12px;
       color: var(--ink-muted);
-      margin-top: 4px;
     }
-    .feed-controls {
+    .answer-actions {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .filter-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .btn-action {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       padding: 6px 12px;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-    .filter-input-wrap:focus-within {
-      border-color: var(--emerald);
-      box-shadow: 0 0 0 2px var(--emerald-glow);
-    }
-    .filter-input {
-      border: none;
-      background: transparent;
-      outline: none;
-      font-size: 13px;
-      color: var(--ink-primary);
-      width: 170px;
-    }
-    .filter-input::placeholder {
-      color: var(--ink-muted);
-    }
-    .btn-refresh {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 8px 16px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      color: var(--emerald);
-      box-shadow: var(--shadow-sm);
+      color: var(--ink-secondary);
       display: inline-flex;
       align-items: center;
       gap: 6px;
       transition: var(--transition);
     }
-    .btn-refresh:hover {
-      background: var(--emerald-light);
-      border-color: var(--emerald-border);
-      transform: translateY(-1px);
+    .btn-action:hover {
+      color: var(--ink);
+      border-color: var(--border-focus);
     }
 
-    /* Tabs */
-    .tabs-bar {
+    /* --- FEED SECTION --- */
+    .feed-section {
+      padding: 40px 0 60px;
+      border-top: 1px solid var(--border);
+    }
+    .feed-header {
       display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .feed-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .feed-header p {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+    .feed-search-wrap {
+      display: flex;
+      align-items: center;
       gap: 8px;
+    }
+    .feed-filter-input {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12.5px;
+      color: var(--ink);
+      outline: none;
+      width: 200px;
+      transition: var(--transition);
+    }
+    .feed-filter-input:focus {
+      border-color: var(--border-focus);
+      width: 240px;
+    }
+    .btn-refresh {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      transition: var(--transition);
+    }
+    .btn-refresh:hover {
+      color: var(--ink);
+      border-color: var(--border-focus);
+    }
+
+    /* Categories */
+    .categories-bar {
+      display: flex;
+      gap: 6px;
       overflow-x: auto;
       padding-bottom: 8px;
       margin-bottom: 20px;
       scrollbar-width: none;
     }
-    .tabs-bar::-webkit-scrollbar { display: none; }
-    .tab-pill {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
+    .categories-bar::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      padding: 6px 14px;
       border-radius: var(--radius-full);
-      padding: 8px 18px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--ink-secondary);
-      white-space: nowrap;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tab-pill:hover {
-      border-color: var(--border-hover);
-      color: var(--ink-primary);
-    }
-    .tab-pill.active {
-      background: var(--ink-primary);
-      color: var(--bg);
-      border-color: var(--ink-primary);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    /* News Grid */
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-      padding-bottom: 80px;
-    }
-    .story-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+    .cat-btn:hover {
+      color: var(--ink);
+      border-color: var(--border-focus);
+    }
+    .cat-btn.active {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    /* Feed Grid */
+    .feed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+    .feed-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: var(--transition);
-      position: relative;
     }
-    .story-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--border-hover);
+    .feed-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
-    .story-badge-row {
+    .feed-card-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
       color: var(--ink-muted);
-      margin-bottom: 14px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
-    .story-publisher-pill {
-      background: var(--slate-light);
+    .feed-publisher {
       color: var(--ink-secondary);
-      padding: 3px 10px;
-      border-radius: var(--radius-sm);
     }
-    .story-title {
-      font-size: 18px;
-      font-weight: 750;
+    .feed-card-title {
+      font-size: 15.5px;
+      font-weight: 700;
       line-height: 1.35;
-      letter-spacing: -0.025em;
-      color: var(--ink-primary);
-      margin-bottom: 12px;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 8px;
     }
-    .story-snippet {
-      font-size: 13.5px;
-      line-height: 1.6;
+    .feed-card-snippet {
+      font-size: 13px;
       color: var(--ink-secondary);
-      margin-bottom: 20px;
+      line-height: 1.5;
+      margin-bottom: 16px;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .story-actions {
+    .feed-card-bottom {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
     }
-    .btn-ask-story {
-      background: var(--emerald-light);
-      border: 1px solid var(--emerald-border);
+    .btn-verify-story {
       color: var(--emerald);
-      border-radius: var(--radius-sm);
-      padding: 6px 14px;
       font-size: 12px;
       font-weight: 700;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       transition: var(--transition);
     }
-    .btn-ask-story:hover {
-      background: var(--emerald);
-      color: white;
-      transform: scale(1.03);
+    .btn-verify-story:hover {
+      text-decoration: underline;
     }
-    .link-source {
-      font-size: 12px;
-      font-weight: 600;
+    .link-feed-orig {
+      font-size: 11.5px;
       color: var(--ink-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
     }
-    .link-source:hover { color: var(--emerald); text-decoration: underline; }
+    .link-feed-orig:hover { color: var(--ink); }
 
-    /* Toast Notification */
+    /* Toast */
     .toast {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
-      background: var(--ink-primary);
+      bottom: 24px;
+      right: 24px;
+      background: var(--ink);
       color: var(--bg);
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
       font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      transform: translateY(100px);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(80px);
       opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: var(--transition);
       z-index: 100;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     .toast.show {
       transform: translateY(0);
       opacity: 1;
     }
 
-    /* Spinner */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.35);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
     /* Footer */
     .footer {
       border-top: 1px solid var(--border);
-      padding: 32px 0 48px;
+      padding: 24px 0 40px;
+      font-size: 12.5px;
       color: var(--ink-muted);
-      font-size: 13px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
-    @media (max-width: 768px) {
-      .hero { padding-top: 32px; }
-      .news-grid { grid-template-columns: 1fr; }
-      .answer-panel { padding: 20px; }
-      .feed-head { flex-direction: column; align-items: flex-start; }
-      .footer { flex-direction: column; }
+    @media (max-width: 640px) {
+      .hero { padding: 40px 0 20px; }
+      .search-form { flex-direction: column; gap: 8px; align-items: stretch; }
+      .submit-btn { width: 100%; justify-content: center; }
+      .answer-tabs-bar { overflow-x: auto; padding: 0 16px; }
+      .feed-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <!-- Header -->
+    <!-- Topbar -->
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">N</div>
-        <div>newsroom<em>AI</em></div>
+        <div class="brand-dot"></div>
+        <div>Newsroom</div>
+        <span>Truth & Evidence</span>
       </div>
       <div class="topbar-right">
-        <div class="status-badge">
-          <span class="status-pulse"></span>
-          <span id="statusText">Connecting…</span>
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span id="statusText">Checking system…</span>
         </div>
-        <div class="theme-switch" id="themeSwitch" role="group" aria-label="Color mode">
-          <button type="button" class="theme-option" data-theme-val="light" aria-pressed="false" title="Switch to Light mode">
-            <span>☀️</span>
-            <span>Light</span>
-          </button>
-          <button type="button" class="theme-option" data-theme-val="dark" aria-pressed="false" title="Switch to Dark mode">
-            <span>🌙</span>
-            <span>Dark</span>
-          </button>
-        </div>
+        <button type="button" class="theme-toggle-btn" id="themeBtn" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+          <span id="themeIcon">🌙</span>
+        </button>
       </div>
     </header>
 
     <main>
       <!-- Hero Section -->
       <section class="hero">
-        <div class="hero-badge">⚡ Real-time Evidence Research Agent</div>
-        <h1>News with<br><span class="gradient">receipts.</span></h1>
-        <p class="hero-desc">Ask anything about breaking news, policy updates, or circulating claims. The agent queries live news sources, audits evidence snippets, and provides verified receipts.</p>
+        <div class="kicker-tag">Fact-Checking & News Verification</div>
+        <h1>Verify any claim with receipts.</h1>
+        <p class="hero-subtitle">Cross-examine news headlines, sports records, public statements, and circulating claims against live reporting and reference encyclopedias.</p>
 
-        <!-- Ask Input Box -->
-        <div class="askbox-wrap">
-          <form class="askbox" id="askForm">
-            <span class="askbox-icon">🔍</span>
-            <input id="question" type="text" maxlength="500" autocomplete="off" placeholder="Ask about any headline, claim, or breaking event…" aria-label="Ask question">
-            <button id="askButton" type="submit" class="askbox-btn">
-              <span>Investigate</span>
-              <span aria-hidden="true">✨</span>
+        <!-- Search Box -->
+        <div class="search-box-wrap">
+          <form class="search-form" id="askForm">
+            <input id="question" type="text" maxlength="500" autocomplete="off" placeholder="Enter a claim or question to verify (e.g. 2021 F1 champion)..." aria-label="Search claim">
+            <span class="kbd-hint">/</span>
+            <button id="askButton" type="submit" class="submit-btn">
+              <span>Verify Claim</span>
+              <span>→</span>
             </button>
           </form>
 
-          <!-- Interactive Suggestion Chips -->
+          <!-- Suggestion Chips -->
           <div class="suggestions">
-            <span class="suggestions-label">Try Asking:</span>
+            <span class="suggestions-label">Try verifying:</span>
+            <button type="button" class="chip" data-query="2021 lewis hamilton won the f1 world champion ship">
+              <span class="chip-badge">Sports</span>
+              <span>Did Lewis Hamilton win the 2021 F1 World Championship?</span>
+            </button>
             <button type="button" class="chip" data-query="What is known about this story: Microsoft offers buyouts to 60,000 employees">
-              <span>💼</span> Microsoft 60K Buyouts
+              <span class="chip-badge">Business</span>
+              <span>Microsoft 60,000 employee buyouts</span>
             </button>
             <button type="button" class="chip" data-query="The deadly cost of India firecracker industry in Sivakasi">
-              <span>🎆</span> Sivakasi Firecracker Hazards
+              <span class="chip-badge">India</span>
+              <span>Sivakasi firecracker safety & explosions</span>
             </button>
             <button type="button" class="chip" data-query="Did the Union Cabinet approve a semiconductor policy this week?">
-              <span>🔬</span> India Semiconductor Policy
-            </button>
-            <button type="button" class="chip" data-query="Formula 1 championship latest standings and title race">
-              <span>🏎️</span> F1 Championship Race
+              <span class="chip-badge">Policy</span>
+              <span>Cabinet semiconductor policy approval</span>
             </button>
           </div>
 
-          <div class="session-bar">
-            <span id="sessionHint">This research tab keeps brief context for follow-up questions.</span>
-            <button class="btn-ghost" id="newSession" type="button" style="display:none;">+ Start fresh session</button>
+          <div class="session-status-row">
+            <span id="sessionHint">Context is remembered for follow-up questions.</span>
+            <button class="btn-reset-session" id="newSession" type="button" style="display:none;">Clear context</button>
           </div>
         </div>
       </section>
 
-      <!-- Answer Panel -->
+      <!-- Live Research Progress Container -->
+      <div id="liveProgressWrap" style="display:none;"></div>
+
+      <!-- Result Panel -->
       <section class="answer-panel" id="answerPanel" aria-live="polite"></section>
 
-      <!-- Feed Section -->
+      <!-- Live News Feed -->
       <section class="feed-section">
-        <div class="feed-head">
+        <div class="feed-header">
           <div>
-            <div class="kicker">The Live Wire</div>
-            <h2>What’s happening right now</h2>
-            <p>Pick a desk to explore current headlines or click "Investigate" on any story.</p>
+            <h2>What’s happening now</h2>
+            <p>Recent reporting from live feeds. Click any headline to verify its claims.</p>
           </div>
-          <div class="feed-controls">
-            <div class="filter-input-wrap">
-              <span style="font-size:12px;opacity:0.6;">🔍</span>
-              <input type="text" id="feedFilter" class="filter-input" placeholder="Filter headlines…" aria-label="Filter current headlines">
-            </div>
-            <button class="btn-refresh" id="refreshButton" type="button">↻ &nbsp;Refresh</button>
+          <div class="feed-search-wrap">
+            <input type="text" id="feedFilter" class="feed-filter-input" placeholder="Filter current stories…" aria-label="Filter stories">
+            <button type="button" id="refreshButton" class="btn-refresh">↻ Refresh</button>
           </div>
         </div>
 
-        <nav class="tabs-bar" id="categoryTabs" aria-label="News categories"></nav>
-        <div id="feedStatus" class="status" role="status" style="font-size:12px;color:var(--ink-muted);margin-bottom:18px;"></div>
-        <div class="news-grid" id="newsGrid"></div>
+        <nav class="categories-bar" id="categoryTabs" aria-label="Feed categories"></nav>
+        <div id="feedStatus" style="font-size:12px;color:var(--ink-muted);margin-bottom:14px;"></div>
+        <div class="feed-grid" id="newsGrid"></div>
       </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
-      <span><strong>Newsroom AI</strong> — Autonomous Multi-Provider Research & Fact-Checking Engine.</span>
-      <span>Evidence-backed syntheses. Always inspect original publisher receipts.</span>
+      <span>Newsroom — Independent fact-checking & verified reporting syntheses.</span>
+      <span>Always check original receipts for primary context.</span>
     </footer>
   </div>
 
-  <!-- Toast -->
-  <div id="toast" class="toast"><span>✓</span> <span id="toastMsg">Copied to clipboard!</span></div>
+  <div id="toast" class="toast">Copied to clipboard</div>
 
   <script>
     const categories = [
-      ['top', '🔥 Top Stories'],
-      ['world', '🌍 World'],
-      ['politics', '🏛️ Politics'],
-      ['technology', '💻 Technology'],
-      ['business', '📈 Business'],
-      ['science', '🔬 Science'],
-      ['sports', '⚽ Sports'],
-      ['entertainment', '🎬 Culture']
+      ['top', 'Top Stories'],
+      ['world', 'World'],
+      ['politics', 'Politics'],
+      ['technology', 'Tech'],
+      ['business', 'Business'],
+      ['science', 'Science'],
+      ['sports', 'Sports'],
+      ['entertainment', 'Culture']
     ];
     let activeCategory = 'top';
     let currentFeedItems = [];
@@ -1144,238 +1075,39 @@
     const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const safeUrl = value => { try { const u = new URL(value, location.href); return ['http:','https:'].includes(u.protocol) ? u.href : '#'; } catch { return '#'; } };
 
-    // --- DARK / LIGHT MODE SWITCHER ---
+    // --- DARK / LIGHT THEME ---
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      document.querySelectorAll('.theme-option').forEach(btn => {
-        const isActive = btn.dataset.themeVal === theme;
-        btn.classList.toggle('active', isActive);
-        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
-      const metaTheme = document.querySelector('meta[name="theme-color"]');
-      if (metaTheme) metaTheme.setAttribute('content', theme === 'dark' ? '#090d16' : '#f8fafc');
+      $('#themeIcon').textContent = theme === 'dark' ? '☀️' : '🌙';
       localStorage.setItem('newsroom_theme', theme);
     }
-
     const savedTheme = localStorage.getItem('newsroom_theme') || 
       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     applyTheme(savedTheme);
 
-    document.querySelectorAll('.theme-option').forEach(btn => {
-      btn.addEventListener('click', () => {
-        applyTheme(btn.dataset.themeVal);
-      });
+    $('#themeBtn').addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
     const dateLabel = value => {
       if (!value) return 'Recent';
       const d = new Date(value);
-      return Number.isNaN(d.getTime()) ? 'Recent' : new Intl.DateTimeFormat(undefined, {month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}).format(d);
+      return Number.isNaN(d.getTime()) ? 'Recent' : new Intl.DateTimeFormat(undefined, {month:'short', day:'numeric'}).format(d);
     };
 
     function showToast(msg) {
       const t = $('#toast');
-      $('#toastMsg').textContent = msg;
+      t.textContent = msg;
       t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
+      setTimeout(() => t.classList.remove('show'), 2200);
     }
 
-    function drawTabs() {
-      $('#categoryTabs').innerHTML = categories.map(([id, label]) => `
-        <button class="tab-pill ${id === activeCategory ? 'active' : ''}" data-category="${id}" type="button">${label}</button>
-      `).join('');
-    }
-
-    function drawFeed(items) {
-      const grid = $('#newsGrid');
-      const filterText = ($('#feedFilter').value || '').trim().toLowerCase();
-      const filtered = filterText
-        ? items.filter(it => (it.title || '').toLowerCase().includes(filterText) || (it.summary || '').toLowerCase().includes(filterText) || (it.publisher || '').toLowerCase().includes(filterText))
-        : items;
-
-      if (!filtered.length) {
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--ink-muted);background:var(--card-bg);border-radius:18px;border:1px dashed var(--border);">No matching stories found. Try clearing your filter or refreshing the feed.</div>';
-        return;
-      }
-      grid.innerHTML = filtered.map((item, index) => {
-        const origIndex = items.indexOf(item);
-        return `
-          <article class="story-card">
-            <div>
-              <div class="story-badge-row">
-                <span class="story-publisher-pill">${esc(item.publisher || 'News Source')}</span>
-                <span>${esc(dateLabel(item.published_at))}</span>
-              </div>
-              <h3 class="story-title">${esc(item.title)}</h3>
-              <p class="story-snippet">${esc(item.summary || 'Click Investigate to have AI cross-examine reporting and sources across the web.')}</p>
-            </div>
-            <div class="story-actions">
-              <a class="link-source" href="${esc(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">Read source ↗</a>
-              <button type="button" class="btn-ask-story" data-ask="${origIndex}">✨ Investigate</button>
-            </div>
-          </article>
-        `;
-      }).join('');
-
-      grid.querySelectorAll('[data-ask]').forEach(button => {
-        button.addEventListener('click', async () => {
-          const item = items[Number(button.dataset.ask)];
-          resetSession();
-          await ensureSession();
-          $('#question').value = `What is known about this story: ${item.title}`;
-          $('#question').focus();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          $('#askForm').dispatchEvent(new Event('submit', { cancelable: true }));
-        });
-      });
-    }
-
-    // Filter input handler
-    $('#feedFilter').addEventListener('input', () => {
-      drawFeed(currentFeedItems);
-    });
-
-    async function loadNews(force = false) {
-      $('#feedStatus').textContent = 'Fetching current headlines…';
-      try {
-        const response = await fetch(`/api/news?category=${encodeURIComponent(activeCategory)}${force ? '&refresh=1' : ''}`);
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.detail || 'News service unavailable');
-        currentFeedItems = data.items || [];
-        drawFeed(currentFeedItems);
-        $('#feedStatus').textContent = `${currentFeedItems.length} stories live · Refreshed ${new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`;
-      } catch (error) {
-        $('#newsGrid').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:var(--ink-muted);background:var(--card-bg);border-radius:18px;border:1px dashed var(--border);">${esc(error.message)}<br><br>Check connection and refresh.</div>`;
-        $('#feedStatus').textContent = '';
-      }
-    }
-
-    function sourceAnchor(source, label) {
-      return `<a class="evidence-link" href="${esc(safeUrl(source.url))}" target="_blank" rel="noopener noreferrer">${esc(label || source.title || source.publisher || 'Open Source')} ↗</a>`;
-    }
-
-    function renderAnswer(data) {
-      const claims = (data.verdicts || []).map(v => `
-        <article class="claim-card">
-          <div class="claim-header">
-            <span class="kicker">Fact Verdict</span>
-            <span class="pill ${esc(v.verdict)}">${v.verdict === 'supported' ? '✓' : v.verdict === 'contradicted' ? '✗' : '?'} ${esc(v.verdict)}</span>
-          </div>
-          <div class="claim-title">${esc(v.claim)}</div>
-          <div class="claim-confidence">Confidence: <strong>${esc(v.confidence).toUpperCase()}</strong></div>
-          ${v.notes ? `<div class="claim-notes">${esc(v.notes)}</div>` : ''}
-          ${(v.evidence || []).map(e => `
-            <div class="evidence-block">
-              <strong>${esc(e.source_name)}</strong> · <span style="text-transform:capitalize;">${esc(e.stance)}</span>
-              ${e.excerpt ? `<div class="evidence-quote">“${esc(e.excerpt)}”</div>` : ''}
-              ${sourceAnchor(e, e.source_name)}
-            </div>
-          `).join('') || '<div class="claim-notes" style="color:var(--ink-muted);margin:0;">No direct quote matches retrieved.</div>'}
-        </article>
-      `).join('');
-
-      const sources = data.related_news || data.sources || [];
-      const sourceCards = sources.map(s => `
-        <a class="source-card" href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer">
-          <div class="source-card-top">
-            <span class="source-publisher">${esc(s.publisher || 'News Source')}</span>
-            <span>${esc(dateLabel(s.published_at))}</span>
-          </div>
-          <div class="source-card-title">${esc(s.title || 'Open reporting')}</div>
-          <div class="source-card-cta">Inspect source ↗</div>
-        </a>
-      `).join('');
-
-      const summaryText = data.news_summary || data.answer || '';
-      let takeawaysHtml = '';
-      if (sources.length > 0) {
-        const topSnippets = sources.filter(s => s.snippet && s.snippet.trim().length > 25).slice(0, 3);
-        if (topSnippets.length > 0) {
-          takeawaysHtml = `
-            <div class="takeaways-list">
-              ${topSnippets.map(s => `
-                <div class="takeaway-item">
-                  <div class="takeaway-dot"></div>
-                  <div><strong>${esc(s.publisher || 'Reporting outlet')}:</strong> ${esc(s.snippet)}</div>
-                </div>
-              `).join('')}
-            </div>
-          `;
-        }
-      }
-
-      const summaryCard = summaryText ? `
-        <section class="news-summary-card">
-          <div class="card-badge">📰 Executive News Summary</div>
-          <h3>What the Reporting Explains</h3>
-          <p class="news-summary-text">${esc(summaryText)}</p>
-          ${takeawaysHtml}
-        </section>
-      ` : '';
-
-      const warnings = (data.warnings || []).length ? `
-        <div style="background:var(--amber-light);border:1px solid rgba(245, 158, 11, 0.3);border-radius:12px;padding:12px 16px;font-size:12px;color:var(--amber);margin:18px 0;">
-          ⚠️ ${(data.warnings || []).map(esc).join('<br>')}
-        </div>
-      ` : '';
-
-      const activity = (data.activity || []).length ? `
-        <details style="margin-top:20px;font-size:12px;color:var(--ink-muted);">
-          <summary style="cursor:pointer;font-weight:700;color:var(--emerald);">Show Research Activity (${data.activity.length} autonomous steps)</summary>
-          <pre style="white-space:pre-wrap;font:11px/1.6 ui-monospace,monospace;color:var(--ink-secondary);background:var(--code-bg);padding:14px;border-radius:12px;border:1px solid var(--border);margin-top:10px;">${data.activity.map(esc).join('\n')}</pre>
-        </details>
-      ` : '';
-
-      const calls = Object.entries(data.llm_calls || {}).map(([k, v]) => `${esc(k)}: ${v}`).join(' · ');
-      const panel = $('#answerPanel');
-
-      panel.innerHTML = `
-        <div class="answer-head">
-          <div>
-            <div class="kicker">✨ AI Research Dossier</div>
-            <h2>${esc(data.topic || 'Your Question')}</h2>
-          </div>
-          <div class="action-group">
-            <button class="icon-btn" id="copyBtn" title="Copy answer">📋</button>
-            <button class="icon-btn" id="closeAnswer" title="Close">✕</button>
-          </div>
-        </div>
-
-        <div class="answer-narrative">${esc(data.answer || 'Research completed.')}</div>
-
-        <div class="answer-meta">
-          <span class="meta-tag">⚡ ${esc(data.model || 'Multi-Provider')}</span>
-          ${calls ? `<span>Provider calls: ${calls}</span>` : ''}
-          <span>Generated ${esc(dateLabel(data.generated_at))}</span>
-        </div>
-
-        ${claims ? `<div class="claims-grid">${claims}</div>` : ''}
-
-        ${summaryCard}
-
-        <div class="related-section">
-          <div class="related-header">
-            <h3>Verified Reporting Sources (${sources.length})</h3>
-            <span style="font-size:12px;color:var(--ink-muted);">Independent outlets consulted for evidence</span>
-          </div>
-          <div class="related-grid">${sourceCards || '<div style="color:var(--ink-muted);font-size:13px;">No direct links recorded.</div>'}</div>
-        </div>
-
-        ${warnings}
-        ${activity}
-      `;
-
-      panel.classList.add('show');
-      $('#closeAnswer').addEventListener('click', () => panel.classList.remove('show'));
-      $('#copyBtn').addEventListener('click', () => {
-        navigator.clipboard.writeText(`${data.topic}\n\n${data.answer}\n\nSummary:\n${summaryText}`);
-        showToast('Answer copied to clipboard!');
-      });
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
+    // --- SESSION MANAGEMENT ---
     let sessionId = sessionStorage.getItem('newsroom_session') || '';
     let sessionPromise = null;
+    let sessionTurnCount = 0;
+
     async function ensureSession() {
       if (!sessionPromise) {
         sessionPromise = fetch('/api/session', {
@@ -1395,12 +1127,11 @@
       return sessionPromise;
     }
 
-    let sessionTurnCount = 0;
     function updateSessionHint() {
       $('#sessionHint').textContent = sessionTurnCount
-        ? `This tab remembers ${sessionTurnCount} research turn${sessionTurnCount === 1 ? '' : 's'} for follow-ups.`
-        : 'This research tab keeps brief context for follow-up questions.';
-      $('#newSession').style.display = sessionTurnCount ? 'inline-flex' : 'none';
+        ? `Remembering ${sessionTurnCount} research turn${sessionTurnCount === 1 ? '' : 's'} for follow-ups.`
+        : 'Context is remembered for follow-up questions.';
+      $('#newSession').style.display = sessionTurnCount ? 'inline-block' : 'none';
     }
 
     function resetSession() {
@@ -1419,28 +1150,278 @@
       $('#question').focus();
     });
 
-    async function followResearchStream(jobId, panel) {
+    // --- DRAW FEED ---
+    function drawTabs() {
+      $('#categoryTabs').innerHTML = categories.map(([id, label]) => `
+        <button class="cat-btn ${id === activeCategory ? 'active' : ''}" data-category="${id}" type="button">${label}</button>
+      `).join('');
+    }
+
+    function drawFeed(items) {
+      const grid = $('#newsGrid');
+      const filterText = ($('#feedFilter').value || '').trim().toLowerCase();
+      const filtered = filterText
+        ? items.filter(it => (it.title || '').toLowerCase().includes(filterText) || (it.summary || '').toLowerCase().includes(filterText) || (it.publisher || '').toLowerCase().includes(filterText))
+        : items;
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--ink-muted);">No matching stories found.</div>';
+        return;
+      }
+      grid.innerHTML = filtered.map((item, index) => {
+        const origIndex = items.indexOf(item);
+        return `
+          <article class="feed-card">
+            <div>
+              <div class="feed-card-meta">
+                <span class="feed-publisher">${esc(item.publisher || 'Source')}</span>
+                <span>${esc(dateLabel(item.published_at))}</span>
+              </div>
+              <h3 class="feed-card-title">${esc(item.title)}</h3>
+              <p class="feed-card-snippet">${esc(item.summary || 'Click verify to check reporting against facts and reference sources.')}</p>
+            </div>
+            <div class="feed-card-bottom">
+              <a class="link-feed-orig" href="${esc(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">Source ↗</a>
+              <button type="button" class="btn-verify-story" data-ask="${origIndex}">Verify Claim →</button>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('[data-ask]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const item = items[Number(button.dataset.ask)];
+          resetSession();
+          await ensureSession();
+          $('#question').value = `What is known about this story: ${item.title}`;
+          $('#question').focus();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          $('#askForm').dispatchEvent(new Event('submit', { cancelable: true }));
+        });
+      });
+    }
+
+    $('#feedFilter').addEventListener('input', () => drawFeed(currentFeedItems));
+
+    async function loadNews(force = false) {
+      $('#feedStatus').textContent = 'Loading live reporting…';
+      try {
+        const response = await fetch(`/api/news?category=${encodeURIComponent(activeCategory)}${force ? '&refresh=1' : ''}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.detail || 'News unavailable');
+        currentFeedItems = data.items || [];
+        drawFeed(currentFeedItems);
+        $('#feedStatus').textContent = `${currentFeedItems.length} stories live`;
+      } catch (error) {
+        $('#newsGrid').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--ink-muted);">${esc(error.message)}</div>`;
+        $('#feedStatus').textContent = '';
+      }
+    }
+
+    $('#categoryTabs').addEventListener('click', event => {
+      const btn = event.target.closest('[data-category]');
+      if (!btn) return;
+      activeCategory = btn.dataset.category;
+      drawTabs();
+      loadNews();
+    });
+    $('#refreshButton').addEventListener('click', () => loadNews(true));
+
+    // --- RENDER ANSWER VIEW ---
+    function renderAnswer(data) {
+      const primaryVerdict = (data.verdicts && data.verdicts.length > 0) ? data.verdicts[0] : null;
+      const rawVerdict = (primaryVerdict ? primaryVerdict.verdict : 'unverified').toLowerCase();
+      
+      let verdictClass = 'verdict-unverified';
+      let verdictTag = 'UNVERIFIED';
+      let realityHeader = 'Retrieved Information:';
+
+      if (rawVerdict === 'contradicted') {
+        verdictClass = 'verdict-false';
+        verdictTag = 'FALSE / CONTRADICTED';
+        realityHeader = 'The Reality / What Actually Happened:';
+      } else if (rawVerdict === 'supported') {
+        verdictClass = 'verdict-true';
+        verdictTag = 'TRUE / CONFIRMED';
+        realityHeader = 'Verified Facts:';
+      } else if (rawVerdict === 'misleading') {
+        verdictClass = 'verdict-misleading';
+        verdictTag = 'PARTIALLY TRUE / MISLEADING';
+        realityHeader = 'Context & Corrections:';
+      }
+
+      let explanationText = primaryVerdict && primaryVerdict.notes && primaryVerdict.notes.trim().length > 15
+        ? primaryVerdict.notes.trim()
+        : (data.answer || 'No additional explanation available.');
+
+      // Strip internal verification diagnostics
+      explanationText = explanationText.replace(/\b(The cited evidence does not point the way[^.]*\.|Confidence reduced[^.]*\.|None of the quoted excerpts[^.]*\.|No retrieved source[^.]*\.)/gi, '').trim();
+      if (!explanationText || explanationText.length < 15) {
+        explanationText = data.answer || 'Research complete.';
+      }
+
+      const evidenceList = primaryVerdict?.evidence || [];
+      const sourcesList = data.related_news || data.sources || [];
+      const activityList = data.activity || [];
+
+      const proofCardsHtml = evidenceList.map(e => `
+        <div class="proof-card">
+          <div class="proof-card-top">
+            <span class="proof-source-tag">${esc(e.source_name || 'Source')}</span>
+            <div class="proof-badges">
+              ${e.excerpt_verified ? '<span class="tag-verified">✓ Verified Quote</span>' : ''}
+              <span class="tag-stance ${e.stance === 'contradicts' ? 'contradicts' : 'supports'}">
+                ${e.stance === 'contradicts' ? '✕ Contradicts Claim' : '✓ Supports Claim'}
+              </span>
+            </div>
+          </div>
+          ${e.excerpt ? `<div class="proof-quote">“${esc(e.excerpt)}”</div>` : ''}
+          <div class="proof-footer">
+            <button type="button" class="btn-copy-quote" data-quote="${esc(e.excerpt)}">📋 Copy Quote</button>
+            <a class="link-inspect" href="${esc(safeUrl(e.url))}" target="_blank" rel="noopener noreferrer">Inspect original source ↗</a>
+          </div>
+        </div>
+      `).join('') || '<div style="color:var(--ink-muted);font-size:13px;padding:12px 0;">No direct quote matches retrieved.</div>';
+
+      const sourcesGridHtml = sourcesList.map(s => `
+        <div class="source-item-card">
+          <div class="source-item-meta">
+            <span>${esc(s.publisher || 'Reference')}</span>
+            <span>${esc(dateLabel(s.published_at))}</span>
+          </div>
+          <div class="source-item-title">${esc(s.title || 'Reporting Source')}</div>
+          <a class="link-inspect" href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer">Read source ↗</a>
+        </div>
+      `).join('') || '<div style="color:var(--ink-muted);font-size:13px;">No external sources listed.</div>';
+
+      const auditListHtml = activityList.map(step => `
+        <li class="audit-item">
+          <span style="color:var(--emerald);">✓</span>
+          <span>${esc(step)}</span>
+        </li>
+      `).join('') || '<li class="audit-item">Completed in 1 step.</li>';
+
+      const panel = $('#answerPanel');
+      panel.innerHTML = `
+        <!-- Top Verdict Banner -->
+        <div class="verdict-banner ${verdictClass}">
+          <div class="verdict-top-row">
+            <div class="verdict-badge">${verdictTag}</div>
+            <div class="verdict-confidence">Confidence: <strong>${esc((primaryVerdict?.confidence || 'Medium')).toUpperCase()}</strong></div>
+          </div>
+          <div class="examined-claim">“${esc(primaryVerdict?.claim || data.topic)}”</div>
+          <div class="reality-box">
+            <div class="reality-box-title">${realityHeader}</div>
+            <div class="reality-text">${esc(explanationText)}</div>
+          </div>
+        </div>
+
+        <!-- Interactive Tabs -->
+        <div class="answer-tabs-bar" role="tablist">
+          <button class="tab-link active" data-tab="proof" role="tab">
+            Verified Receipts <span class="tab-count">${evidenceList.length}</span>
+          </button>
+          <button class="tab-link" data-tab="narrative" role="tab">
+            Full Dossier
+          </button>
+          <button class="tab-link" data-tab="sources" role="tab">
+            Sources Consulted <span class="tab-count">${sourcesList.length}</span>
+          </button>
+          <button class="tab-link" data-tab="audit" role="tab">
+            Audit Trail
+          </button>
+        </div>
+
+        <!-- Tab Panes -->
+        <div class="answer-body">
+          <div class="tab-pane active" id="pane-proof">
+            <div class="proof-grid">${proofCardsHtml}</div>
+          </div>
+
+          <div class="tab-pane" id="pane-narrative">
+            <div class="dossier-narrative">${esc(data.answer || explanationText)}</div>
+          </div>
+
+          <div class="tab-pane" id="pane-sources">
+            <div class="sources-grid">${sourcesGridHtml}</div>
+          </div>
+
+          <div class="tab-pane" id="pane-audit">
+            <ul class="audit-list">${auditListHtml}</ul>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="answer-footer-bar">
+          <div class="model-meta">
+            Model: ${esc(data.model || 'Multi-Provider')} · Generated ${esc(dateLabel(data.generated_at))}
+          </div>
+          <div class="answer-actions">
+            <button type="button" class="btn-action" id="copyFactBtn">📋 Copy Verdict</button>
+            <button type="button" class="btn-action" id="closeAnswerBtn">✕ Close</button>
+          </div>
+        </div>
+      `;
+
+      panel.classList.add('show');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Tab switcher interaction
+      panel.querySelectorAll('.tab-link').forEach(tab => {
+        tab.addEventListener('click', () => {
+          panel.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+          panel.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          const target = panel.querySelector(`#pane-${tab.dataset.tab}`);
+          if (target) target.classList.add('active');
+        });
+      });
+
+      // Copy buttons interaction
+      panel.querySelectorAll('.btn-copy-quote').forEach(btn => {
+        btn.addEventListener('click', () => {
+          navigator.clipboard.writeText(btn.dataset.quote);
+          showToast('Quote copied to clipboard!');
+        });
+      });
+
+      $('#copyFactBtn').addEventListener('click', () => {
+        const text = `${verdictTag}: ${primaryVerdict?.claim || data.topic}\n\n${explanationText}\n\nEvidence:\n${evidenceList.map(e => `- ${e.source_name}: "${e.excerpt}" (${e.url})`).join('\n')}`;
+        navigator.clipboard.writeText(text);
+        showToast('Fact check copied!');
+      });
+
+      $('#closeAnswerBtn').addEventListener('click', () => {
+        panel.classList.remove('show');
+      });
+    }
+
+    // --- STREAMING RESEARCH LOOP ---
+    async function followResearchStream(jobId, wrap) {
       return new Promise((resolve, reject) => {
         const stream = new EventSource(`/api/jobs/${encodeURIComponent(jobId)}/events`);
-        const progress = [];
-        const drawProgress = () => {
-          const list = panel.querySelector('#liveSteps');
-          if (list) {
-            list.innerHTML = progress.map((item, idx) => `
-              <li>
-                ${idx === progress.length - 1 ? '<span class="step-spinner"></span>' : '<span class="step-done">✓</span>'}
-                <span>${esc(item)}</span>
-              </li>
+        const steps = [];
+
+        const updateProgress = (msg) => {
+          const stepEl = wrap.querySelector('#liveStepMsg');
+          if (stepEl) stepEl.textContent = msg;
+          const auditUl = wrap.querySelector('#liveAuditList');
+          if (auditUl) {
+            auditUl.innerHTML = steps.map(s => `
+              <li class="audit-item"><span style="color:var(--emerald);">✓</span> <span>${esc(s)}</span></li>
             `).join('');
           }
         };
+
         stream.addEventListener('progress', event => {
           try {
             const data = JSON.parse(event.data);
-            progress.push(data.message || 'Investigating…');
-            drawProgress();
+            const msg = data.message || 'Auditing sources…';
+            steps.push(msg);
+            updateProgress(msg);
           } catch {}
         });
+
         stream.addEventListener('complete', event => {
           stream.close();
           try {
@@ -1454,15 +1435,17 @@
             }
           } catch (e) { reject(e); }
         });
+
         stream.onerror = () => {
           if (stream.readyState === EventSource.CLOSED) {
             stream.close();
-            reject(new Error('Connection interrupted. Please try again.'));
+            reject(new Error('Connection closed unexpectedly.'));
           }
         };
       });
     }
 
+    // --- FORM SUBMIT ---
     $('#askForm').addEventListener('submit', async event => {
       event.preventDefault();
       const question = $('#question').value.trim();
@@ -1470,21 +1453,30 @@
 
       const button = $('#askButton');
       button.disabled = true;
-      button.innerHTML = '<span class="spinner"></span><span>Researching…</span>';
+      button.innerHTML = '<span>Verifying…</span>';
 
-      const panel = $('#answerPanel');
-      panel.innerHTML = `
-        <div class="kicker">⚡ Autonomous Research Loop Active</div>
-        <h2 style="font-size:24px;font-weight:800;margin-bottom:8px;">Investigating: "${esc(question)}"</h2>
-        <p style="color:var(--ink-secondary);font-size:14px;margin-bottom:18px;">The agent is querying live wires, validating article URLs, and cross-checking quotes.</p>
-        <div class="live-stream-box">
-          <ul id="liveSteps" class="steps-list">
-            <li><span class="step-spinner"></span><span>Initializing research query and planning sources…</span></li>
-          </ul>
+      const progressWrap = $('#liveProgressWrap');
+      progressWrap.style.display = 'block';
+      progressWrap.innerHTML = `
+        <div class="live-progress-box">
+          <div class="progress-header">
+            <div class="progress-title">
+              <span class="pulse-dot"></span>
+              <span>Autonomous Verification Pipeline Active</span>
+            </div>
+            <span style="font-size:12px;color:var(--ink-muted);">Cross-referencing…</span>
+          </div>
+          <div class="live-current-step" id="liveStepMsg">Initializing inquiry and identifying factual claims…</div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill"></div>
+          </div>
+          <details style="margin-top:10px;">
+            <summary class="audit-toggle-btn">View live audit trail</summary>
+            <ul id="liveAuditList" class="audit-list"></ul>
+          </details>
         </div>
       `;
-      panel.classList.add('show');
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      progressWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       try {
         const sid = await ensureSession();
@@ -1494,32 +1486,25 @@
           body: JSON.stringify({question, session_id: sid})
         });
         const job = await response.json();
-        if (!response.ok) throw new Error(job.detail || 'Could not start research');
-        const data = await followResearchStream(job.job_id, panel);
+        if (!response.ok) throw new Error(job.detail || 'Could not verify claim');
+        const data = await followResearchStream(job.job_id, progressWrap);
+        progressWrap.style.display = 'none';
         sessionTurnCount = data.turn_count || sessionTurnCount + 1;
         updateSessionHint();
         renderAnswer(data);
       } catch (error) {
+        progressWrap.style.display = 'none';
+        const panel = $('#answerPanel');
         panel.innerHTML = `
-          <div class="answer-head">
-            <div>
-              <div class="kicker" style="color:var(--rose);">Research Paused</div>
-              <h2>Could not complete investigation</h2>
-            </div>
-            <button class="icon-btn" id="closeAnswer">✕</button>
+          <div style="padding:24px 28px;">
+            <h3 style="color:var(--rose);margin-bottom:8px;">Verification Paused</h3>
+            <p style="color:var(--ink-secondary);font-size:14px;">${esc(error.message)}</p>
           </div>
-          <p class="answer-narrative" style="font-size:16px;">${esc(error.message)}</p>
-          ${error.activity?.length ? `
-            <details style="margin-top:16px;">
-              <summary style="cursor:pointer;font-weight:700;color:var(--rose);">View activity log</summary>
-              <pre style="white-space:pre-wrap;font:11px/1.6 monospace;color:var(--ink-secondary);background:var(--code-bg);padding:12px;border-radius:10px;margin-top:8px;">${error.activity.map(esc).join('\n')}</pre>
-            </details>
-          ` : ''}
         `;
-        $('#closeAnswer').addEventListener('click', () => panel.classList.remove('show'));
+        panel.classList.add('show');
       } finally {
         button.disabled = false;
-        button.innerHTML = '<span>Investigate</span><span aria-hidden="true">✨</span>';
+        button.innerHTML = '<span>Verify Claim</span><span>→</span>';
       }
     });
 
@@ -1533,33 +1518,24 @@
       });
     });
 
-    // Keyboard shortcut Ctrl+K to focus askbox
+    // Keyboard shortcut '/' to focus search input
     window.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      if (e.key === '/' && document.activeElement !== $('#question') && document.activeElement !== $('#feedFilter')) {
         e.preventDefault();
         $('#question').focus();
       }
     });
 
-    // Category Tabs
-    $('#categoryTabs').addEventListener('click', event => {
-      const btn = event.target.closest('[data-category]');
-      if (!btn) return;
-      activeCategory = btn.dataset.category;
-      drawTabs();
-      loadNews();
-    });
-
-    $('#refreshButton').addEventListener('click', () => loadNews(true));
-
+    // Initial load
     drawTabs();
     loadNews();
     ensureSession().catch(e => { $('#sessionHint').textContent = e.message; });
+
     fetch('/api/status').then(r => r.json()).then(s => {
       $('#statusText').textContent = s.providers?.length
-        ? `${s.providers.length} AI Models Active · Verified Feed`
-        : `News Live · Add AI Key`;
-    }).catch(() => { $('#statusText').textContent = 'Live Newsroom'; });
+        ? `${s.providers.length} models ready`
+        : `News feed active`;
+    }).catch(() => { $('#statusText').textContent = 'Ready'; });
   </script>
 </body>
 </html>

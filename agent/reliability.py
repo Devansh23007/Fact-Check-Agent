@@ -13,8 +13,9 @@ FACT_CHECKERS = {
 }
 ESTABLISHED = {
     "reuters.com", "apnews.com", "bbc.com", "bbc.co.uk", "afp.com", "bloomberg.com", "ptinews.com",
+    "wikipedia.org", "en.wikipedia.org",
 }
-DEEP_TIERS = {"official", "fact_checker", "document"}
+DEEP_TIERS = {"official", "fact_checker", "document", "established"}
 
 
 def classify(url: str, kind: str = "news_article") -> str:
@@ -22,6 +23,8 @@ def classify(url: str, kind: str = "news_article") -> str:
         return "fact_checker"
     if kind == "document" or url.startswith("doc://"):
         return "document"
+    if kind in ("reference", "encyclopedia"):
+        return "established"
     host = hostname(url)
     if not host:
         return "general"

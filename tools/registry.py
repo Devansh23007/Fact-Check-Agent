@@ -9,6 +9,7 @@ from agent.sources import SourceRegistry
 from tools.docs_search import DocsIndex
 from tools.factcheck import search_factchecks
 from tools.news import search_news
+from tools.reference import search_reference
 from tools.scraper import fetch_page
 from utils.cache import DiskCache
 from utils.dates import parse_iso_date, published_date
@@ -106,9 +107,9 @@ def _fn(name: str, description: str, properties: dict, required: list[str]) -> d
 class ToolBox:
     def __init__(self, settings, registry: SourceRegistry, *, cache: DiskCache | None = None,
                  docs: DocsIndex | None = None, news_fn=search_news, factcheck_fn=search_factchecks,
-                 fetch_fn=fetch_page, log=lambda message: None) -> None:
+                 reference_fn=search_reference, fetch_fn=fetch_page, log=lambda message: None) -> None:
         self.settings, self.registry, self.cache, self.docs = settings, registry, cache, docs
-        self.news_fn, self.factcheck_fn, self.fetch_fn, self.log = news_fn, factcheck_fn, fetch_fn, log
+        self.news_fn, self.factcheck_fn, self.reference_fn, self.fetch_fn, self.log = news_fn, factcheck_fn, reference_fn, fetch_fn, log
         self.tz = ZoneInfo(settings.timezone)
         self._searched_news: set = set()   # normalised news searches already run (blocks repeats)
         self.bulky_ids: set[str] = set()  # tool-call ids whose (large) output may be trimmed later
@@ -123,6 +124,10 @@ class ToolBox:
                  "published_after": {"type": "string", "description": "YYYY-MM-DD. Only articles on/after this date."},
                  "domains": {"type": "array", "items": {"type": "string"}, "description": "Restrict to these domains, e.g. ['pib.gov.in']."},
                  "sort_by": {"type": "string", "enum": ["relevancy", "newest"]}}, ["query"]),
+            _fn("search_reference",
+                "Search Wikipedia encyclopedia for historical events, sports results and champions, records, biographies, science, and established reference knowledge. Highly recommended whenever checking events from past years, general knowledge, or non-breaking news.",
+                {"query": {"type": "string", "description": "Keywords for Wikipedia search, e.g. '2021 Formula One World Championship' or 'Lewis Hamilton'."}},
+                ["query"]),
             _fn("search_factchecks",
                 "Look up published fact-checks (Google Fact Check Tools) of claims similar to the query.",
                 {"query": {"type": "string"}}, ["query"]),
@@ -147,8 +152,9 @@ class ToolBox:
                 raise ValueError("arguments must be a JSON object")
         except (json.JSONDecodeError, ValueError) as exc:
             return json.dumps({"error": f"Invalid arguments: {exc}"}), "invalid arguments"
-        handler = {"search_news": self._search_news, "search_factchecks": self._search_factchecks,
-                   "fetch_page": self._fetch_page, "search_docs": self._search_docs}.get(name)
+        handler = {"search_news": self._search_news, "search_reference": self._search_reference,
+                   "search_factchecks": self._search_factchecks, "fetch_page": self._fetch_page,
+                   "search_docs": self._search_docs}.get(name)
         if handler is None or (name == "search_docs" and not self.docs):
             return json.dumps({"error": f"Unknown tool: {name}"}), "unknown tool"
         try:
@@ -231,6 +237,32 @@ class ToolBox:
                     "Absence of results is not evidence a claim is false. After two empty searches, move on to search_factchecks or submit_report.")
         summary = f"{len(results)} result(s)" + (f", {irrelevant} unrelated discarded" if irrelevant else "") + (f", {too_old} too old" if too_old else "") + (" (query simplified)" if relaxed_note else "")
         return {"results": results, "filtered_out_by_date": too_old, "note": note}, summary
+
+    def _search_reference(self, a: dict):
+        query = str(a.get("query", "")).strip()
+        if not query:
+            return {"error": "query is required"}, "missing query"
+        found = self._cached("reference", {"q": query}, lambda: self.reference_fn(query, limit=MAX_RESULTS))
+        results = []
+        for item in found[:MAX_RESULTS]:
+            source = self.registry.add(
+                item.get("url", ""),
+                title=item.get("title", ""),
+                publisher=item.get("publisher", "Wikipedia"),
+                kind="reference",
+                published_at=item.get("published_at", ""),
+                snippet=item.get("snippet", ""),
+            )
+            if source:
+                results.append({
+                    "url": source.url,
+                    "title": source.title,
+                    "publisher": source.publisher,
+                    "snippet": source.snippet[:400],
+                    "readable": True,
+                })
+        note = "" if results else "No reference encyclopedia entries found for this query."
+        return {"results": results, "note": note}, f"{len(results)} reference entry(ies)"
 
     def _search_factchecks(self, a: dict):
         query = str(a.get("query", "")).strip()

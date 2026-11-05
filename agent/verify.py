@@ -36,6 +36,23 @@ def excerpt_matches(excerpt: str, source_text: str, threshold: float = 0.7) -> b
     return match.size / len(ex) >= threshold
 
 
+def excerpt_is_relevant(claim: str, excerpt: str, notes: str = "") -> bool:
+    """Ensure the quoted excerpt actually addresses the core subject/year of the claim."""
+    claim_years = set(re.findall(r"\b(19\d\d|20\d\d)\b", claim))
+    excerpt_years = set(re.findall(r"\b(19\d\d|20\d\d)\b", excerpt))
+    # If the claim specifies a distinct year (e.g. 2021) and excerpt specifies a different year (e.g. 2026)
+    # without mentioning the claim's year, reject as a temporal mismatch.
+    if claim_years and excerpt_years and not (claim_years & excerpt_years):
+        return False
+
+    claim_words = set(re.findall(r"[a-z0-9]+", claim.lower())) - _STOPWORDS
+    notes_words = set(re.findall(r"[a-z0-9]+", notes.lower())) - _STOPWORDS
+    excerpt_words = set(re.findall(r"[a-z0-9]+", excerpt.lower())) - _STOPWORDS
+
+    overlap = (claim_words | notes_words) & excerpt_words
+    return len(overlap) >= 1
+
+
 def source_summaries(registry: SourceRegistry) -> list[SourceSummary]:
     return [
         SourceSummary(title=s.title or s.claim_reviewed or s.url, url=s.url, publisher=s.publisher,
@@ -100,10 +117,12 @@ def finalize(topic: str, draft: ReportDraft, registry: SourceRegistry, research_
             if source is None:
                 dropped += 1
                 continue
+            matches_text = excerpt_matches(e.excerpt, source.searchable_text())
+            is_relevant = excerpt_is_relevant(item.claim, e.excerpt, item.notes)
             evidence.append(Evidence(
                 source_name=source.publisher or hostname(source.url) or "Unknown source",
                 url=source.url, stance=e.stance, excerpt=e.excerpt.strip()[:600],
-                excerpt_verified=excerpt_matches(e.excerpt, source.searchable_text()),
+                excerpt_verified=matches_text and is_relevant,
                 source_tier=source.tier, published_at=source.published_at,
             ))
 
@@ -119,8 +138,19 @@ def finalize(topic: str, draft: ReportDraft, registry: SourceRegistry, research_
         else:
             wanted = _DIRECTION.get(verdict)
             if wanted and not any(e.stance == wanted for e in evidence):
-                verdict, confidence = "unverified", "low"
-                notes.append("The cited evidence does not point the way the verdict claimed, so it was reset to unverified.")
+                if verdict == "contradicted" and any(e.stance in ("supports", "neutral") for e in evidence):
+                    # The model retrieved sources refuting the claim (supporting the factual reality).
+                    # Align evidence stance with the contradicted verdict.
+                    for e in evidence:
+                        if e.stance in ("supports", "neutral"):
+                            e.stance = "contradicts"
+                elif verdict == "supported" and any(e.stance == "neutral" for e in evidence):
+                    for e in evidence:
+                        if e.stance == "neutral":
+                            e.stance = "supports"
+                else:
+                    verdict, confidence = "unverified", "low"
+                    notes.append("The cited evidence does not point the way the verdict claimed, so it was reset to unverified.")
             elif verdict != "unverified" and not verified:
                 confidence = "low"
                 notes.append("None of the quoted excerpts could be matched to the retrieved text, so confidence was capped at low.")
