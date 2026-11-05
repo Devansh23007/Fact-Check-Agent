@@ -100,6 +100,34 @@ def compact_research_state(registry: SourceRegistry, research_log: list[Research
     return encoded
 
 
+def is_anaphoric_follow_up(topic: str, context: list[dict] | None) -> bool:
+    """True only if the query is an elliptical/pronoun continuation of a previous topic."""
+    if not context:
+        return False
+    core = re.sub(
+        r"^\s*(what is known about\s+(?:this|the)?\s*(?:story|claim|event|headline)?[:\s]*|"
+        r"what do we know about\s+(?:this|the)?\s*(?:story|claim|event|headline)?[:\s]*|"
+        r"what(?:'s|\s+is)\s+the\s+story\s+(?:about|behind)[:\s]*|"
+        r"tell me about\s+(?:this|the)?\s*|"
+        r"is\s+it\s+true\s+(?:that)?[:\s]*|"
+        r"(?:any\s+)?(?:news|updates?)\s+(?:about|on)[:\s]*|"
+        r"what(?:'s|\s+is)\s+happening\s+with[:\s]*)",
+        "", topic, flags=re.I
+    ).strip(" ?.,\"'")
+    stopwords = {
+        "a", "an", "the", "in", "on", "of", "to", "for", "with", "and", "or", "by", "at",
+        "from", "as", "is", "are", "was", "were", "what", "how", "why", "who", "did",
+        "does", "do", "story", "news", "about", "this", "that"
+    }
+    content_words = [w for w in re.findall(r"[a-z0-9]+", core.lower()) if w not in stopwords]
+    if len(content_words) >= 3:
+        return False
+
+    has_pronouns = bool(re.search(r"\b(he|she|they|it|him|her|them|there|that|those|his|hers|their|its)\b", topic, re.I))
+    starts_with_continuation = bool(re.match(r"^\s*(what about|and|how did|why did|what happened|what else|any other|who won|who is|who are)\b", topic, re.I))
+    return (has_pronouns or starts_with_continuation or len(content_words) <= 1)
+
+
 def compact_session_context(context: list[dict], max_chars: int = 2800) -> str:
     """Keep recent turns valid and small enough to send with a follow-up question."""
     turns = []
@@ -141,10 +169,11 @@ def run_agent(topic: str, settings, *, llm=None, toolbox: ToolBox | None = None,
         {"role": "system", "content": SYSTEM_PROMPT.format(today=today, tz=settings.timezone, max_steps=settings.max_steps)},
     ]
     context_messages: list[dict] = []
-    if context:
+    follow_up = is_anaphoric_follow_up(topic, context)
+    if context and follow_up:
         context_messages.append({
             "role": "user",
-            "content": "Prior questions, answers, and sources in this browser session (use as context, not as proof): "
+            "content": "Prior questions, answers, and sources in this conversation: "
                        + compact_session_context(context),
         })
     messages.extend(context_messages)
@@ -155,14 +184,15 @@ def run_agent(topic: str, settings, *, llm=None, toolbox: ToolBox | None = None,
     nudged, repairs = False, 0
     if seed_news:
         result = json.dumps({"results": [], "note": "No matching recent articles were found."})
-        search_topic = topic
-        is_follow_up = bool(
-            re.search(r"\b(he|she|they|it|him|her|them|there|that|those|this)\b", topic, re.I)
-            or re.match(r"\s*(what about|and|how did he|how did she|why did he|why did she|what happened to)\b", topic, re.I)
-        )
-        if context and is_follow_up:
-            previous_question = str(context[-1].get("question") or "")
-            search_topic = f"{previous_question} {topic}".strip()
+        if follow_up and context:
+            prev_q = str(context[-1].get("question") or "")
+            prev_core = re.sub(
+                r"^\s*(what is known about\s+(?:this|the)?\s*(?:story|claim)?[:\s]*|is it true that[:\s]*)",
+                "", prev_q, flags=re.I
+            ).strip(" ?.,\"'")
+            search_topic = f"{prev_core} {topic}".strip()
+        else:
+            search_topic = topic
         for index, query in enumerate(initial_news_queries(search_topic)):
             if time.monotonic() >= deadline:
                 log("Research time limit reached during initial news search; continuing with sources collected so far.")

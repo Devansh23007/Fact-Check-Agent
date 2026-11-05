@@ -11,27 +11,32 @@ _UA = {"User-Agent": "NewsFactCheckAgent/0.2"}
 
 def initial_news_query(topic: str) -> str:
     """Turn common question wording into a short, searchable headline query."""
-    query = re.sub(r"\b(usa|united states of america|united states)\b", "US", topic, flags=re.I)
-    if re.search(r"\bmid[\s-]*terms?\b", query, re.I):
-        return "US midterm elections"
-    query = re.sub(r"^\s*(any\s+)?(news|updates?)\s+(about|on)\s+", "", query, flags=re.I)
-    query = re.sub(r"^\s*(tell me about|what is happening with|what's happening with)\s+", "", query, flags=re.I)
-    query = re.sub(r"\s+", " ", query).strip(" ?.,")
+    query = topic.strip()
+    query = re.sub(
+        r"^\s*(what is known about\s+(?:this|the)?\s*(?:story|claim|event|headline)?[:\s]*|"
+        r"what do we know about\s+(?:this|the)?\s*(?:story|claim|event|headline)?[:\s]*|"
+        r"what(?:'s|\s+is)\s+the\s+story\s+(?:about|behind)[:\s]*|"
+        r"tell me about\s+(?:this|the)?\s*|"
+        r"is\s+it\s+true\s+(?:that)?[:\s]*|"
+        r"(?:any\s+)?(?:news|updates?)\s+(?:about|on)[:\s]*|"
+        r"what(?:'s|\s+is)\s+happening\s+with[:\s]*)",
+        "", query, flags=re.I
+    ).strip()
+    query = re.sub(r"\b(usa|united states of america|united states)\b", "US", query, flags=re.I)
+    query = re.sub(r"\s+", " ", query).strip(" ?.,\"'")
     return query[:120] or topic[:120]
 
 
 def initial_news_queries(topic: str) -> list[str]:
     """Provide a small synonym ladder for questions whose exact wording is uncommon."""
     query = initial_news_query(topic)
-    lowered = topic.lower()
-    if re.search(r"\b(?:f1|formula\s*1)\b", lowered):
+    lowered = query.lower()
+    if re.search(r"\b(?:f1|formula\s*1)\b", lowered) and not re.search(r"\b(democrats|congress|senate|election|politics|biden|trump)\b", lowered):
         year = re.search(r"\b20\d{2}\b", topic)
         season = year.group(0) if year else str(date.today().year)
         if re.search(r"champion|championship|world title|world champion|winner", lowered):
             return [f"Formula 1 {season} champion", f"Formula 1 {season} standings", "F1 championship latest"]
         return [query, f"Formula 1 {season} standings"]
-    if re.search(r"\bmid[\s-]*terms?\b", lowered):
-        return ["US midterm elections", "US elections"]
     return [query]
 
 
